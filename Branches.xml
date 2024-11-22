@@ -1,0 +1,29 @@
+<branches>
+  <branch>
+    <name>Main Branch</name>
+    <address>123 Coffee St, Brisbane, QLD</address>
+    <phone>+61 7 1234 5678</phone>
+    <hours>
+      <day>Monday-Friday</day>
+      <time>8:00 AM - 8:00 PM</time>
+    </hours>
+  </branch>
+  <branch>
+    <name>City Branch</name>
+    <address>456 Market Rd, Brisbane, QLD</address>
+    <phone>+61 7 8765 4321</phone>
+    <hours>
+      <day>Monday-Sunday</day>
+      <time>9:00 AM - 10:00 PM</time>
+    </hours>
+  </branch>
+  <branch>
+    <name>West End Branch</name>
+    <address>789 West End Rd, Brisbane, QLD</address>
+    <phone>+61 7 1122 3344</phone>
+    <hours>
+      <day>Monday-Saturday</day>
+      <time>8:00 AM - 9:00 PM</time>
+    </hours>
+  </branch>
+</branches>

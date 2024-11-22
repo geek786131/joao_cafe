@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">
+    <title>About Us - Bryan's Café</title>
+</head>
+<body>
+    <nav>
+        <a href="index.html"><img src="images/image.png" alt="Bryan's Café Logo"></a>
+        <div>
+            <a href="index.html">About Us</a>
+            <a href="Menu.html">Menu</a>
+            <a href="Contact.html">Contact</a>
+        </div>
+    </nav>
+
+    <main>
+        <h1>Our Menu</h1>
+        <h2>Meals</h2>
+        <ul id="mealsList"></ul>
+
+        <h2>Beverages</h2>
+        <ul id="beveragesList"></ul>
+    </main>
+    
+    <footer>
+        <p>&copy;<span id="currentYear"></span> Bryan’s Café</p>
+        <a href="privacy.html" target="_blank">Privacy Policy</a>
+    </footer>
+    
+    <script>
+        document.getElementById("currentYear").textContent = new Date().getFullYear();
+
+        // Function to load the XML file
+        function loadMenu() {
+            const xhr = new XMLHttpRequest();
+            xhr.open("GET", "menu.xml", true);
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    const xmlDoc = xhr.responseXML;
+
+                    // Load Meals
+                    const meals = xmlDoc.getElementsByTagName("meal");
+                    const mealsList = document.getElementById("mealsList");
+                    for (let i = 0; i < meals.length; i++) {
+                        const meal = meals[i];
+                        const name = meal.getElementsByTagName("name")[0].textContent;
+                        const price = meal.getElementsByTagName("price")[0].textContent;
+                        const description = meal.getElementsByTagName("description")[0].textContent;
+                        const image = meal.getElementsByTagName("image")[0].textContent;
+
+                        const li = document.createElement("li");
+                        li.innerHTML = `
+                            <h3>${name}</h3>
+                            <img class="menu-image" src="images/${image}" alt="${name}">
+                            <p>Price: ${price}<br>Description: ${description}</p>
+                        `;
+                        mealsList.appendChild(li);
+                    }
+
+                    // Load Beverages
+                    const beverages = xmlDoc.getElementsByTagName("beverage");
+                    const beveragesList = document.getElementById("beveragesList");
+                    for (let j = 0; j < beverages.length; j++) {
+                        const beverage = beverages[j];
+                        const name = beverage.getElementsByTagName("name")[0].textContent;
+                        const price = beverage.getElementsByTagName("price")[0] ? beverage.getElementsByTagName("price")[0].textContent : "Prices vary";
+                        const sizes = beverage.getElementsByTagName("sizes")[0];
+                        const image = beverage.getElementsByTagName("image")[0].textContent;
+
+                        const li = document.createElement("li");
+                        let sizeInfo = '';
+                        if (sizes) {
+                            const sizeList = sizes.getElementsByTagName("size");
+                            sizeInfo = '<p>Sizes:</p><ul>';
+                            for (let k = 0; k < sizeList.length; k++) {
+                                const sizeType = sizeList[k].getElementsByTagName("type")[0].textContent;
+                                const sizePrice = sizeList[k].getElementsByTagName("price")[0].textContent;
+                                sizeInfo += `<li>${sizeType} - ${sizePrice}</li>`;
+                            }
+                            sizeInfo += '</ul>';
+                        }
+
+                        li.innerHTML = `
+                            <h3>${name}</h3>
+                            <img class="menu-image" src="images/${image}" alt="${name}">
+                            <p>Price: ${price}</p>
+                            ${sizeInfo}
+                        `;
+                        beveragesList.appendChild(li);
+                    }
+                }
+            };
+            xhr.send();
+        }
+
+        // Load the menu on page load
+        loadMenu();
+    </script>
+</body>
+</html>
